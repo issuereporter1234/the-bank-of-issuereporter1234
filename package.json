@@ -1,0 +1,24 @@
+{
+  "name": "the-bank-of-issuereporter1234",
+  "version": "1.0.0",
+  "description": "A simple bank simulator in node/express",
+  "homepage": "https://github.com/issuereporter1234/the-bank-of-issuereporter1234#readme",
+  "bugs": {
+    "url": "https://github.com/issuereporter1234/the-bank-of-issuereporter1234/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/issuereporter1234/the-bank-of-issuereporter1234.git"
+  },
+  "license": "MIT",
+  "author": "issuereporter1234",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
