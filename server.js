@@ -11,6 +11,17 @@ app.get('/accounts', (req, res) => {
     res.status(200).json({ accounts });
 });
 
+app.get('/dashboard/:id', (req, res) => {
+    const id = Number(req.params.id)
+
+    let account = accounts.find(el => el.id === id)
+    res.status(200).sendFile(path.join(__dirname, 'public', 'dashboard', 'index.html'))
+})
+
+app.use('/dashboard/', express.static(path.join(__dirname, 'public', 'dashboard')));
+     
+
+
 app.listen(8000, '0.0.0.0', () => {
     console.log('Server listening on port 8000');
 });
