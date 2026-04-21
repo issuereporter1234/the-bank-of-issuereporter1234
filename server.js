@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 let accounts = JSON.parse(fs.readFileSync('./data/accounts.json'));
+console.log(accounts);
 
 function updateObjects(){
     fs.writeFile('./data/accounts.json', JSON.stringify(accounts), (err) =>{
@@ -46,6 +47,37 @@ function deposit(amount, id) {
     updateObjects()
 
 }
+
+app.post('/wirthdraw/:id', (req, res) => {
+    let sendId = Number(req.params.id);
+    let reciId = req.body.recipient;
+    let amount = Number(req.body.amount);
+    
+    if(reciId === 'ATM'){
+        wirthdrawToATM(amount, sendId)
+        updateObjects();
+    }else{
+        reciId = Number(reciId)
+    wirthdrawToUser(sendId, reciId, amount)
+    }
+
+})
+
+function wirthdrawToATM(amount, id){
+    accountToWirthdraw = accounts.find((el) => el.id === id)
+    accountToWirthdraw.balance -= amount;
+}
+
+function wirthdrawToUser(sendId, reciId, amount){
+    sender = accounts.find((el) => el.id === sendId);
+    recipient = accounts.find((el) => el.id === reciId);
+    console.log(recipient, sender)
+    sender.balance -= amount;
+    recipient.balance += amount
+    updateObjects()
+
+}
+
 
 app.listen(8000, '0.0.0.0', () => {
     console.log('Server listening on port 8000');

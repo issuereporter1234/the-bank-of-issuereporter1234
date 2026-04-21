@@ -29,6 +29,20 @@ function deposit(){
     })
 }
 
-const depButton = document.getElementById('deposit')
-
+function wirthdraw(){
+    wirthdrawAmount = document.getElementById('wirthdraw-amount').value;
+    recipient = document.getElementById('recipient').value
+    fetch(`/wirthdraw/${id}`, {
+        
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            recipient: recipient,
+            amount: wirthdrawAmount
+        })
+    })
+    
+}
 
