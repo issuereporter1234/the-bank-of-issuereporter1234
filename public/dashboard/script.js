@@ -11,3 +11,24 @@ function displayData(){
     const balanceEl = document.getElementById('balance')
     balanceEl.innerText = account.balance
 }
+
+
+depositAmount = document.getElementById('deposit-amount').value
+
+function deposit(){
+    depositAmount = document.getElementById('deposit-amount').value
+    fetch(`/deposit/${id}`, {
+
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            amount: depositAmount
+        })
+    })
+}
+
+const depButton = document.getElementById('deposit')
+
+
