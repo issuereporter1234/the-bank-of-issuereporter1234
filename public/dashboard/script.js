@@ -46,3 +46,16 @@ function wirthdraw(){
     
 }
 
+function deleteAccount(){
+    if (confirm('Do you want to delete your account?')){
+    fetch(`/dashboard/${id}`, {
+        method: 'DELETE',
+        headers:{
+            'Content-Type': 'aplication/json'
+        },
+        body: null
+    })
+    .then(() => window.location.href  = '/')
+}
+
+}

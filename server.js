@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 app.use(express.json());       
 app.use(express.urlencoded({extended: true})); 
-app.use(express.json());
 let accounts = JSON.parse(fs.readFileSync('./data/accounts.json'));
 console.log(accounts);
 
@@ -29,7 +28,10 @@ app.get('/dashboard/:id', (req, res) => {
     const id = Number(req.params.id)
 
     let account = accounts.find(el => el.id === id)
+    if (account){
     res.status(200).sendFile(path.join(__dirname, 'public', 'dashboard', 'index.html'))
+    }
+    else res.status(404).send('404')
 })
 
 
@@ -74,8 +76,8 @@ function wirthdrawToATM(amount, id){
 }
 
 function wirthdrawToUser(sendId, reciId, amount){
-    sender = accounts.find((el) => el.id === sendId);
-    recipient = accounts.find((el) => el.id === reciId);
+    let sender = accounts.find((el) => el.id === sendId);
+    let recipient = accounts.find((el) => el.id === reciId);
     sender.balance -= amount;
     recipient.balance += amount
     updateObjects()
@@ -92,6 +94,22 @@ app.post('/new-account', (req, res) =>{
     updateObjects()
     
     res.redirect('/')
+})
+app.delete('/dashboard/:id', (req, res) => {
+    
+    console.log(req.params.id);
+    
+    let id = Number(req.params.id)
+    let accountToDelete = accounts.find((el) => el.id === id)
+    if(accountToDelete){
+    let index = accounts.indexOf(accountToDelete)
+    accounts.splice(index, 1)
+    res.status(204).send(null)
+    }
+    else res.status(404).send('not-found')
+    console.log(accounts);
+    
+    updateObjects()
 })
 
 app.listen(8000, '0.0.0.0', () => {
