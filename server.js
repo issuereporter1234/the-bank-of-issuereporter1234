@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+app.use(express.json());       
+app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 let accounts = JSON.parse(fs.readFileSync('./data/accounts.json'));
 console.log(accounts);
@@ -10,11 +12,14 @@ function updateObjects(){
     fs.writeFile('./data/accounts.json', JSON.stringify(accounts), (err) =>{
         if(err) console.log(err)
     })
+console.log(accounts);
 }
 
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/dashboard/', express.static(path.join(__dirname, 'public', 'dashboard')));
+app.use('/new-account', express.static(path.join(__dirname, 'public', 'new-account')))
 
 app.get('/accounts', (req, res) => {
     res.status(200).json({ accounts });
@@ -27,7 +32,7 @@ app.get('/dashboard/:id', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'public', 'dashboard', 'index.html'))
 })
 
-app.use('/dashboard/', express.static(path.join(__dirname, 'public', 'dashboard')));
+
      
  app.post('/deposit/:id', (req, res) => {
     let id = Number(req.params.id)
@@ -71,14 +76,25 @@ function wirthdrawToATM(amount, id){
 function wirthdrawToUser(sendId, reciId, amount){
     sender = accounts.find((el) => el.id === sendId);
     recipient = accounts.find((el) => el.id === reciId);
-    console.log(recipient, sender)
     sender.balance -= amount;
     recipient.balance += amount
     updateObjects()
 
 }
 
+app.post('/new-account', (req, res) =>{
+    newId = accounts[accounts.length -1].id + 1;
+    req.body.balance = Number(req.body.balance)
+    let newAccount = Object.assign({id: newId}, req.body)
+
+    accounts.push(newAccount)
+  
+    updateObjects()
+    
+    res.redirect('/')
+})
 
 app.listen(8000, '0.0.0.0', () => {
     console.log('Server listening on port 8000');
-});
+});//add transaction logs
+//add 404 for nonexisting accounts

@@ -1,7 +1,8 @@
 const accountsEl = document.getElementById('accounts')
 
 function redirect(id){
-    window.location.href = `/dashboard/${id}`
+    if(id === 'new-account') window.location.href = `/${id}`
+    else window.location.href = `/dashboard/${id}`
 }
 
 function renderAccounts(array){
