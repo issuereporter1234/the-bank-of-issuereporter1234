@@ -1,3 +1,4 @@
+"use srticrt"
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -20,9 +21,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dashboard/', express.static(path.join(__dirname, 'public', 'dashboard')));
 app.use('/new-account', express.static(path.join(__dirname, 'public', 'new-account')))
 
-app.get('/accounts', (req, res) => {
-    res.status(200).json({ accounts });
+app.get('/accounts/:id', (req, res) => {
+    let id = Number(req.params.id)
+    let account = accounts.find((el) => el.id === id) 
+    res.status(200).json({ account });
 });
+
+app.get('/accounts', (req, res) =>{
+    res.status(200).json({accounts})
+} )
 
 app.get('/dashboard/:id', (req, res) => {
     const id = Number(req.params.id)
@@ -31,7 +38,7 @@ app.get('/dashboard/:id', (req, res) => {
     if (account){
     res.status(200).sendFile(path.join(__dirname, 'public', 'dashboard', 'index.html'))
     }
-    else res.status(404).send('404')
+    else res.status(404).send('The account does not exist.')
 })
 
 
@@ -77,7 +84,11 @@ function wirthdrawToATM(amount, id){
 
 function wirthdrawToUser(sendId, reciId, amount){
     let sender = accounts.find((el) => el.id === sendId);
+    console.log(sender);
+    
     let recipient = accounts.find((el) => el.id === reciId);
+     console.log(recipient);
+
     sender.balance -= amount;
     recipient.balance += amount
     updateObjects()
@@ -112,7 +123,12 @@ app.delete('/dashboard/:id', (req, res) => {
     updateObjects()
 })
 
+
 app.listen(8000, '0.0.0.0', () => {
     console.log('Server listening on port 8000');
-});//add transaction logs
-//add 404 for nonexisting accounts
+});
+app.use((req, res) => {
+    res.status(404).send('The page you are looking for does not exist.')
+})
+//add transaction logs
+//add 404 for nonexisting pages
