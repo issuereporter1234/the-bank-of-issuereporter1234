@@ -6,8 +6,8 @@ A simple bank simulation with a Node.js/Express backend. The focus of this proje
 
 - Add new accounts
 - Delete accounts
-- Transfer funds between accounts
-- Withdraw cash via ATM (use `ATM` as the recipient and your account ID as the sender)
+- Transfer funds between accounts (use a recipients ID)
+- Withdraw cash via ATM (use `ATM` as the recipient)
 - Accounts are accessible with a single click — no login, no passwords
 - 404 handling for unknown routes
 - Overdraft allowed (no balance floor — fix planned)
