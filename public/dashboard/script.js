@@ -6,7 +6,7 @@ fetch(`/accounts/${id}`)
 .then(() => displayData());
 
 function displayData(){
-    console.log(account)
+    
     const nameEl = document.getElementById('name');
     nameEl.innerText = account.name
     const balanceEl = document.getElementById('balance')

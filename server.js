@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 app.use(express.json());       
 app.use(express.urlencoded({extended: true})); 
-let accounts = JSON.parse(fs.readFileSync('./data/accounts.json'));
+let accounts = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'accounts.json')));
 console.log(accounts);
 
 function updateObjects(){
@@ -131,4 +131,3 @@ app.use((req, res) => {
     res.status(404).send('The page you are looking for does not exist.')
 })
 //add transaction logs
-//add 404 for nonexisting pages
