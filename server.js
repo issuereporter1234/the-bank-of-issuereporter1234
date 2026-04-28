@@ -77,6 +77,66 @@ app.post('/wirthdraw/:id', (req, res) => {
 
 })
 
+function getDate(){
+    let now = new Date;
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    let year = now.getFullYear();
+    let month = now.getMonth();
+    month++
+    let date = now.getDate();
+    
+    let day = now.getDay();
+
+    let hour = now.getHours()
+    let minute = now.getMinutes()
+    let second = now.getSeconds()
+
+    return `Date: ${days[day]} ${date}. ${month} ${year} Time: ${hour}:${minute}:${second}`
+}
+
+function logUsers(sender, recipient, amount){
+    let logSend
+    let logRec
+
+    let dataSend = {
+       id: recipient.id,
+       name: recipient.name,
+       dateAndTime:  getDate(),
+       amount: -amount
+    }
+
+    let dataRec = {
+        id: sender.id,
+        name: sender.name,
+        dateAndTime: getDate(),
+        amount: amount
+    }
+
+    let pathSend = path.join(__dirname, 'data', 'logs', sender.id.toString())
+    let pathRec = path.join(__dirname, 'data', 'logs', recipient.id.toString())
+    if (fs.existsSync(pathSend)){
+        logSend = JSON.parse(fs.readFileSync(pathSend))
+        console.log(logSend);
+        
+    }
+    else {
+        logSend = []
+    }
+    logSend.push(dataSend)
+    fs.writeFileSync(pathSend, JSON.stringify(logSend))
+
+    if(fs.existsSync(pathRec)){
+        logRec = JSON.parse(fs.readFileSync(pathRec))
+        console.log(logRec);  
+    }
+    else logRec = []
+
+    logRec.push(dataRec)
+    fs.writeFileSync(pathRec, JSON.stringify(logRec))
+
+}
+
 function wirthdrawToATM(amount, id){
     accountToWirthdraw = accounts.find((el) => el.id === id)
     accountToWirthdraw.balance -= amount;
@@ -92,6 +152,7 @@ function wirthdrawToUser(sendId, reciId, amount){
     sender.balance -= amount;
     recipient.balance += amount
     updateObjects()
+    logUsers(sender, recipient, amount)
 
 }
 
@@ -123,6 +184,18 @@ app.delete('/dashboard/:id', (req, res) => {
     updateObjects()
 })
 
+app.get('/transaction-log/:id', (req, res) => {
+    let id = req.params.id
+    let log
+    let pathReq = path.join(__dirname, 'data', 'logs', id)
+    if (fs.existsSync(pathReq)){
+        log = fs.readFileSync(pathReq)
+        res.send(log)
+    }
+    else {
+        res.send(null)
+    }
+})
 
 app.listen(8000, '0.0.0.0', () => {
     console.log('Server listening on port 8000');

@@ -1,0 +1,18 @@
+#transaction-log{
+    padding: 5px;
+    margin-top: 10px;
+    border-color: black;
+    border-style: solid;
+    height: 400px;
+    overflow: scroll;
+}
+#name-of-sender, #date-and-time, #name, #id{
+     display:inline;
+}
+.info-container:not(.info-container > div){
+    padding: 5px;
+    border: 2px solid grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
