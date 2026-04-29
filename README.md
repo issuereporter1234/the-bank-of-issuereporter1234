@@ -11,6 +11,7 @@ A simple bank simulation with a Node.js/Express backend. The focus of this proje
 - Accounts are accessible with a single click — no login, no passwords
 - 404 handling for unknown routes
 - Overdraft allowed (no balance floor — fix planned)
+- Full transaction log per account
 
 ## Tech Stack
 
@@ -26,11 +27,10 @@ npm install
 node index.js
 ```
 
-Then open `http://localhost:3000` in your browser.
+Then open `http://localhost:8000` in your browser.
 
 ## Known Limitations / Planned Features
 
-- [ ] Full transaction log per account
 - [ ] Balance floor / overdraft protection
 - [ ] Authentication (login system)
 - [ ] Improved UI/UX
