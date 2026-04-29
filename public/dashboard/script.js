@@ -99,16 +99,13 @@ function displayLog(data){
         logEl.append(logChild);
     }}
 
-(function () {
-    
-    fetch(`/transaction-log/${id}`)
-    .then(res => {
-        if (res)res.json()
-        else displayLog(data)
-    })
-    .then(data =>  displayLog(data))
-    .catch(err => console.log(err))
 
-    
-    
-})()
+let log
+fetch(`/transaction-log/${id}`)
+.then(res => res.json())
+.then(data => {
+    if (data)log = structuredClone(data.log)
+    else log = null
+})
+.then(() => displayLog(log))
+.catch((err) => console.log(err))

@@ -59,6 +59,7 @@ function deposit(amount, id) {
     console.log(accountToDeposit)
     accountToDeposit.balance += amount
     updateObjects()
+    logATM(accountToDeposit, true, amount)
 
 }
 
@@ -117,7 +118,7 @@ function logUsers(sender, recipient, amount){
     let pathRec = path.join(__dirname, 'data', 'logs', recipient.id.toString())
     if (fs.existsSync(pathSend)){
         logSend = JSON.parse(fs.readFileSync(pathSend))
-        console.log(logSend);
+       
         
     }
     else {
@@ -128,7 +129,7 @@ function logUsers(sender, recipient, amount){
 
     if(fs.existsSync(pathRec)){
         logRec = JSON.parse(fs.readFileSync(pathRec))
-        console.log(logRec);  
+         
     }
     else logRec = []
 
@@ -137,9 +138,38 @@ function logUsers(sender, recipient, amount){
 
 }
 
+function logATM(user, isDeposit, amount){
+    let logUser
+    let pathUser = path.join(__dirname, 'data', 'logs', (user.id.toString()))
+    let dataTr = {
+       id: 'ATM',
+       name: 'ATM',
+       dateAndTime:  getDate(),
+       amount: null
+    }
+
+    if(isDeposit) {
+        dataTr.amount = amount
+    }
+    else dataTr.amount = -amount
+
+    if(fs.existsSync(pathUser)){
+        logUser = JSON.parse(fs.readFileSync(pathUser))
+    }
+    else{
+        logUser = []
+    }
+
+    logUser.push(dataTr)
+    fs.writeFileSync(pathUser, JSON.stringify(logUser))
+
+}
+
+
 function wirthdrawToATM(amount, id){
     accountToWirthdraw = accounts.find((el) => el.id === id)
     accountToWirthdraw.balance -= amount;
+    logATM(accountToWirthdraw, false, amount)
 }
 
 function wirthdrawToUser(sendId, reciId, amount){
@@ -189,11 +219,13 @@ app.get('/transaction-log/:id', (req, res) => {
     let log
     let pathReq = path.join(__dirname, 'data', 'logs', id)
     if (fs.existsSync(pathReq)){
-        log = fs.readFileSync(pathReq)
-        res.send(log)
+        log = JSON.parse(fs.readFileSync(pathReq, 'UTF-8'))
+        console.log(log);
+        
+        res.status(200).json({log})
     }
     else {
-        res.send(null)
+        res.json(null)
     }
 })
 
