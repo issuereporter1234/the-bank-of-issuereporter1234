@@ -199,13 +199,13 @@ app.post('/new-account', (req, res) =>{
 })
 app.delete('/dashboard/:id', (req, res) => {
     
-    console.log(req.params.id);
     
     let id = Number(req.params.id)
     let accountToDelete = accounts.find((el) => el.id === id)
     if(accountToDelete){
     let index = accounts.indexOf(accountToDelete)
     accounts.splice(index, 1)
+    fs.unlinkSync(path.join('data', 'logs', id.toString()))
     res.status(204).send(null)
     }
     else res.status(404).send('not-found')
