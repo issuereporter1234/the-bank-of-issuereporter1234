@@ -1,5 +1,5 @@
-"use srticrt"
-const express = require('express');
+"use strict"
+ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
@@ -45,7 +45,7 @@ app.get('/dashboard/:id', (req, res) => {
      
  app.post('/deposit/:id', (req, res) => {
     let id = Number(req.params.id)
-    amount = Number(req.body.amount)
+    let amount = Number(req.body.amount)
     deposit(amount, id)
  })
 
@@ -167,7 +167,7 @@ function logATM(user, isDeposit, amount){
 
 
 function wirthdrawToATM(amount, id){
-    accountToWirthdraw = accounts.find((el) => el.id === id)
+    let accountToWirthdraw = accounts.find((el) => el.id === id)
     accountToWirthdraw.balance -= amount;
     logATM(accountToWirthdraw, false, amount)
 }
@@ -187,7 +187,7 @@ function wirthdrawToUser(sendId, reciId, amount){
 }
 
 app.post('/new-account', (req, res) =>{
-    newId = accounts[accounts.length -1].id + 1;
+    let newId = accounts[accounts.length -1].id + 1;
     req.body.balance = Number(req.body.balance)
     let newAccount = Object.assign({id: newId}, req.body)
 
