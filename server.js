@@ -63,17 +63,17 @@ function deposit(amount, id) {
 
 }
 
-app.post('/wirthdraw/:id', (req, res) => {
+app.post('/withdraw/:id', (req, res) => {
     let sendId = Number(req.params.id);
     let reciId = req.body.recipient;
     let amount = Number(req.body.amount);
     
     if(reciId === 'ATM'){
-        wirthdrawToATM(amount, sendId)
+        withdrawToATM(amount, sendId)
         updateObjects();
     }else{
         reciId = Number(reciId)
-    wirthdrawToUser(sendId, reciId, amount)
+    withdrawToUser(sendId, reciId, amount)
     }
 
 })
@@ -166,13 +166,13 @@ function logATM(user, isDeposit, amount){
 }
 
 
-function wirthdrawToATM(amount, id){
-    let accountToWirthdraw = accounts.find((el) => el.id === id)
-    accountToWirthdraw.balance -= amount;
-    logATM(accountToWirthdraw, false, amount)
+function withdrawToATM(amount, id){
+    let accountToWithdraw = accounts.find((el) => el.id === id)
+    accountToWithdraw.balance -= amount;
+    logATM(accountToWithdraw, false, amount)
 }
 
-function wirthdrawToUser(sendId, reciId, amount){
+function withdrawToUser(sendId, reciId, amount){
     let sender = accounts.find((el) => el.id === sendId);
     console.log(sender);
     

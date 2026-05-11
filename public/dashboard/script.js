@@ -32,10 +32,10 @@ function deposit(){
     })
 }
 
-function wirthdraw(){
-    wirthdrawAmount = document.getElementById('wirthdraw-amount').value;
+function withdraw(){
+    withdrawAmount = document.getElementById('withdraw-amount').value;
     recipient = document.getElementById('recipient').value
-    fetch(`/wirthdraw/${id}`, {
+    fetch(`/withdraw/${id}`, {
         
         method: 'POST', 
         headers: {
@@ -43,7 +43,7 @@ function wirthdraw(){
         },
         body: JSON.stringify({
             recipient: recipient,
-            amount: wirthdrawAmount
+            amount: withdrawAmount
         })
     })
     

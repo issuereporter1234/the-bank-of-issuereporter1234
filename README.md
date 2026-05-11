@@ -34,6 +34,7 @@ Then open `http://localhost:8000` in your browser.
 - [ ] Balance floor / overdraft protection
 - [ ] Authentication (login system)
 - [ ] Improved UI/UX
+- [ ] Error handling for transactions to non-existent accounts
 
 ## Notes
 
