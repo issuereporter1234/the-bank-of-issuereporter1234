@@ -15,9 +15,6 @@ function displayData(){
     userId.innerText = account.id
 };
 
-
-let depositAmount = document.getElementById('deposit-amount').value
-
 function deposit(){
     depositAmount = document.getElementById('deposit-amount').value
     fetch(`/deposit/${id}`, {
@@ -33,8 +30,8 @@ function deposit(){
 }
 
 function withdraw(){
-    withdrawAmount = document.getElementById('withdraw-amount').value;
-    recipient = document.getElementById('recipient').value
+    let withdrawAmount = document.getElementById('withdraw-amount').value;
+    let recipient = document.getElementById('recipient').value
     fetch(`/withdraw/${id}`, {
         
         method: 'POST', 
@@ -69,7 +66,7 @@ function displayLog(data){
     if(data){
 
         
-    for (i = data.length -1; i >= 0; i--){
+    for (let i = data.length -1; i >= 0; i--){
         const logChild = document.createElement('div')
         logChild.className = 'info-container'
         const logChild2 = document.createElement('div')

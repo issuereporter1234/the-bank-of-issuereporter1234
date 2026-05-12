@@ -9,7 +9,7 @@ let accounts = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'accounts
 console.log(accounts);
 
 function updateObjects(){
-    fs.writeFile('./data/accounts.json', JSON.stringify(accounts), (err) =>{
+    fs.writeFile(path.join(__dirname, 'data', 'accounts.json'), JSON.stringify(accounts), (err) =>{
         if(err) console.log(err)
     })
 console.log(accounts);
@@ -47,6 +47,7 @@ app.get('/dashboard/:id', (req, res) => {
     let id = Number(req.params.id)
     let amount = Number(req.body.amount)
     deposit(amount, id)
+    res.status(200)
  })
 
 
@@ -75,6 +76,7 @@ app.post('/withdraw/:id', (req, res) => {
         reciId = Number(reciId)
     withdrawToUser(sendId, reciId, amount)
     }
+    res.status(200)
 
 })
 
